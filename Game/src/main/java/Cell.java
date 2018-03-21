@@ -9,7 +9,7 @@ public class Cell {
     public CellType Type;
     public boolean isRevealed = false;
     int MonsterId = -1;
-    ArrayList<Integer> Artefacts = new ArrayList<Integer>();
+    ArrayList<Integer> Artifacts = new ArrayList<Integer>();
     public int X;
     public int Y;
 
@@ -19,7 +19,7 @@ public class Cell {
         Y = y;
     }
     public void AddArtifact(Item item) {
-        Artefacts.add(item.Id);
+        Artifacts.add(item.Id);
     }
 
     public void SetMonster(Monster monster) {
@@ -27,7 +27,7 @@ public class Cell {
     }
 
     public void AddArtifact(Integer itemId) {
-        Artefacts.add(itemId);
+        Artifacts.add(itemId);
     }
 
     public void SetMonster(Integer monsterId) {

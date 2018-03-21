@@ -29,6 +29,6 @@ public class Item implements IInventorable {
     }
 
     public void pickup() {
-
+        GameManager.getInstance().player.inventory.pickup(Id);
     }
 }

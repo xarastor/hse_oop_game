@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ConsoleView implements IView {
 
     private final String NotRevealed = "# ";
@@ -48,7 +50,7 @@ public class ConsoleView implements IView {
         Print("Игра еще не начата\n");
     }
 
-    public void ShowCellDefinition() {
+    private void ShowCellDefinition() {
         switch (GameManager.getInstance().getCurrentCell().Type) {
             case Empty: {
                 Print("На этой клетке ничего нет\n");
@@ -67,21 +69,26 @@ public class ConsoleView implements IView {
         }
     }
 
-    public void ShowGlobalHelp() {
+    private void ShowGlobalHelp() {
         ShowCellDefinition();
         Print(  "Чтобы открыть карту нажмите 'M'\n" +
+                "Чтобы открыть инвентарь нажмите 'I'\n" +
                 "Чтобы завершить игру нажмите 'E'\n");
     }
 
-    public void ShowMapHelp() {
+    private void ShowMapHelp() {
         Print("Чтобы пойти вверх введите 'W'\n");
         Print("Чтобы пойти вниз введите 'S'\n");
         Print("Чтобы пойти налево введите 'A'\n");
         Print("Чтобы пойти направо введите 'D'\n");
+        Print("Чтобы вернуться назад введите 'B'\n");
     }
 
-    public void ShowBattleHelp() {
+    private void ShowBattleHelp() {
 
+    }
+
+    private void ShowInventoryHelp() {
     }
 
     public void ShowCurrentHelp() {
@@ -98,6 +105,9 @@ public class ConsoleView implements IView {
                 ShowMapHelp();
                 return;
             }
+            if (GameManager.getInstance().inInventoryMenu) {
+                ShowInventoryHelp();
+            }
             Print("Неизвестное состоние игры\n");
             GameManager.getInstance().HardStop();
         } else {
@@ -105,8 +115,19 @@ public class ConsoleView implements IView {
         }
     }
 
+
     public void WrongGlobalTurn() {
         Print("Нельзя пойти в эту сторону!\n");
+    }
+
+    public void ItemsPickedUp(ArrayList<Integer> ItemsId) {
+        for (Integer Id: ItemsId) {
+            Print("Поднят предмет " + ItemStorage.Items.get(Id).Name + "\n");
+        }
+    }
+
+    public void ShowInventory() {
+        Print("В вашем инвентаре " + GameManager.getInstance().player.inventory.items.size() + " предметов\n");
     }
 
 

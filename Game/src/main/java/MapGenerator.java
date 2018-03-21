@@ -2,8 +2,8 @@ import java.util.Random;
 
 public class MapGenerator {
 
-    public static double monsterProbablity = 0.75;
-    public static double artefactProbability = 0.4;
+    public static double monsterProbablity = 0.7;
+    public static double artefactProbability = 0.3;
     public static double distanceScaler = 0.1;
 
     public static Map generated;
@@ -67,16 +67,22 @@ public class MapGenerator {
         switch (generated.Type) {
             case Monster: {
                 generated.SetMonster(generateMonster(GetDistanceToPlayerStartPoint(x, y)));
-                int amountItems = new Random().nextInt(4);
+                int amountItems = new Random().nextInt(4) + 1;
                 for (int i = 0; i < amountItems; ++i) {
-                    generated.AddArtifact(generateItem(GetDistanceToPlayerStartPoint(x, y)));
+                    int ItemId = generateItem(GetDistanceToPlayerStartPoint(x, y));
+                    if (!generated.Artifacts.contains(ItemId)) {
+                        generated.AddArtifact(ItemId);
+                    }
                 }
                 break;
             }
             case Artifact: {
-                int amountItems = new Random().nextInt(4);
+                int amountItems = new Random().nextInt(4) + 1;
                 for (int i = 0; i < amountItems; ++i) {
-                    generated.AddArtifact(generateItem(GetDistanceToPlayerStartPoint(x, y)));
+                    int ItemId = generateItem(GetDistanceToPlayerStartPoint(x, y));
+                    if (!generated.Artifacts.contains(ItemId)) {
+                        generated.AddArtifact(ItemId);
+                    }
                 }
                 break;
             }

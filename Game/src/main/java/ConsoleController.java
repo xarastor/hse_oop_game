@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.lang.Character;
 
 public class ConsoleController implements IController {
 
@@ -22,7 +23,7 @@ public class ConsoleController implements IController {
     }
 
     public void HandleRead(char symbol) {
-        switch (symbol) {
+        switch (Character.toUpperCase(symbol)) {
             case 'S': {
                 if (!GameManager.getInstance().isGameStarted) {
                     GameManager.getInstance().Start();
@@ -40,6 +41,30 @@ public class ConsoleController implements IController {
                 if (GameManager.getInstance().isGameStarted) {
                     if (GameManager.getInstance().inMainMenu) {
                         GameManager.getInstance().ShowMap();
+                    } else {
+                        GameManager.getInstance().renderer.WrongInput();
+                    }
+                } else {
+                    GameManager.getInstance().renderer.GameNotStarted();
+                }
+                break;
+            }
+            case 'I': {
+                if (GameManager.getInstance().isGameStarted) {
+                    if (GameManager.getInstance().inMainMenu) {
+                        GameManager.getInstance().ShowInventory();
+                    } else {
+                        GameManager.getInstance().renderer.WrongInput();
+                    }
+                } else {
+                    GameManager.getInstance().renderer.GameNotStarted();
+                }
+                break;
+            }
+            case 'B': {
+                if (GameManager.getInstance().isGameStarted) {
+                    if (GameManager.getInstance().inMapMenu) {
+                        GameManager.getInstance().ShowMainMenu();
                     } else {
                         GameManager.getInstance().renderer.WrongInput();
                     }
@@ -86,6 +111,20 @@ public class ConsoleController implements IController {
                         GameManager.getInstance().ShowMap();
                     } else {
                         GameManager.getInstance().renderer.WrongInput();
+                    }
+                } else {
+                    GameManager.getInstance().renderer.GameNotStarted();
+                }
+                break;
+            }
+            case 'P': {
+                if (GameManager.getInstance().isGameStarted) {
+                    if (GameManager.getInstance().getCurrentCell().Type == Cell.CellType.Artifact) {
+                        for (Integer itemId: GameManager.getInstance().getCurrentCell().Artifacts) {
+                            ItemStorage.Items.get(itemId).pickup();
+                        }
+                        GameManager.getInstance().getCurrentCell().Type = Cell.CellType.Empty;
+                        GameManager.getInstance().renderer.ItemsPickedUp(GameManager.getInstance().getCurrentCell().Artifacts);
                     }
                 } else {
                     GameManager.getInstance().renderer.GameNotStarted();

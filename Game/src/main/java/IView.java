@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public interface IView {
 
     void Start();
@@ -27,4 +29,8 @@ public interface IView {
     void ShowCurrentHelp();
 
     void WrongGlobalTurn();
+
+    void ItemsPickedUp(ArrayList<Integer> ItemsId);
+
+    void ShowInventory();
 }

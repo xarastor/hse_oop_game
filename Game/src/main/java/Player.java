@@ -14,4 +14,6 @@ public class Player extends Character {
     private int CharacterPoint = 0;
 
 
+    public Inventory inventory = new Inventory(this);
+
 }

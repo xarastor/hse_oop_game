@@ -137,7 +137,32 @@ public class Character implements IEventable{
         return modifiers;
     }
 
-    private void removeModifier(Modifier modifier) {
+    public void removeModifierExternal(Modifier modifier) {
+        if (!modifiers.contains(modifier)) {
+            return;
+        }
+        modifiers.remove(modifier);
+        switch (modifier.type) {
+            case Agility:
+                ModifyAgility -= modifier.value;
+            case Strength:
+                ModifyStrength -= modifier.value;
+            case Intelligence:
+                ModifyIntelligence -= modifier.value;
+            case Wisdom:
+                ModifyWisdom -= modifier.value;
+            case HealthRegen:
+                ModifyHealthRegen -= modifier.value;
+            case ManaRegen:
+                ModifyManaRegen -= modifier.value;
+            case StaminaRegen:
+                ModifyStaminaRegen -= modifier.value;
+            case Luck:
+                ModifyLuck -= modifier.value;
+        }
+    }
+
+    protected void removeModifier(Modifier modifier) {
         switch (modifier.type) {
             case Agility:
                 ModifyAgility -= modifier.value;
@@ -159,8 +184,10 @@ public class Character implements IEventable{
     }
 
     public boolean addModifier(Modifier modifier) {
-        if (!inBattle && modifier.durationGlobal <= 0) {
-            return false;
+        if (modifier.isTemporary) {
+            if (!inBattle && modifier.durationGlobal <= 0) {
+                return false;
+            }
         }
         switch (modifier.type) {
             case Agility:

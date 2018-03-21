@@ -22,6 +22,7 @@ public class GameManager {
     public boolean inMapMenu = false;
     public boolean inBattleMenu = false;
     public boolean inMainMenu = false;
+    public boolean inInventoryMenu = false;
 
     public Player player;
     public Map map;
@@ -47,12 +48,24 @@ public class GameManager {
         inMapMenu = false;
         inMainMenu = false;
         inBattleMenu = false;
+        inInventoryMenu = false;
     }
 
     public void ShowMap() {
         ResetMenus();
         inMapMenu = true;
         renderer.ShowMap();
+    }
+
+    public void ShowInventory() {
+        ResetMenus();
+        inInventoryMenu = true;
+        renderer.ShowInventory();
+    }
+
+    public void ShowMainMenu() {
+        ResetMenus();
+        inMainMenu = true;
     }
 
     public void Awake() {
