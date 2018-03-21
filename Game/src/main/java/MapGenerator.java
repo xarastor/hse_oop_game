@@ -23,7 +23,7 @@ public class MapGenerator {
             return Cell.CellType.Monster;
         }
         if (chance > artefactProbability) {
-            return Cell.CellType.Artefact;
+            return Cell.CellType.Artifact;
         }
         return Cell.CellType.Empty;
     }
@@ -31,7 +31,7 @@ public class MapGenerator {
     public static Integer generateMonster(double distance) {
         Random random = new Random();
         double chance = random.nextDouble();
-        int level = (int)(MonsterStorage.MaxLevel * (distance / distanceScaler + chance * 0.5));
+        int level = (int)(MonsterStorage.MaxLevel * (distance / distanceScaler + chance * 0.5)) + 1;
         int AmountMonstersByLevel =  MonsterStorage.MonstersByLevel.get(level).size();
         int pickMonster = random.nextInt(AmountMonstersByLevel);
         return MonsterStorage.MonstersByLevel.get(level).get(pickMonster);
@@ -41,7 +41,7 @@ public class MapGenerator {
         Random random = new Random();
         double chance = random.nextDouble();
         Item.ItemType pickType = Item.ItemType.values()[random.nextInt(Item.ItemType.values().length)];
-        int level = (int)(ItemStorage.MaxLevel * (distance / distanceScaler + chance * 0.5));
+        int level = (int)(ItemStorage.MaxLevel * (distance / distanceScaler + chance * 0.5)) + 1;
         int AmountItemsByLevel =  ItemStorage.ItemsByCategoryAndLevel.get(pickType).get(level).size();
         int pickItem = random.nextInt(AmountItemsByLevel);
         return ItemStorage.ItemsByCategoryAndLevel.get(pickType).get(level).get(pickItem);
@@ -52,7 +52,11 @@ public class MapGenerator {
         distanceScaler = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
         for (int i = 0; i < width; ++i) {
             for (int j = 0; j < height; ++j) {
-                generated.Cells.get(i).add(generateCell(i, j));
+                if (generated.StartX == i && generated.StartY == j) {
+                    generated.Cells.get(i).add(new Cell(Cell.CellType.Empty, i, j));
+                } else {
+                    generated.Cells.get(i).add(generateCell(i, j));
+                }
             }
         }
         return generated;
@@ -69,7 +73,7 @@ public class MapGenerator {
                 }
                 break;
             }
-            case Artefact: {
+            case Artifact: {
                 int amountItems = new Random().nextInt(4);
                 for (int i = 0; i < amountItems; ++i) {
                     generated.AddArtifact(generateItem(GetDistanceToPlayerStartPoint(x, y)));

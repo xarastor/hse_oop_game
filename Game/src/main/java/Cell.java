@@ -4,9 +4,10 @@ public class Cell {
     public enum CellType {
         Empty,
         Monster,
-        Artefact
+        Artifact
     }
     public CellType Type;
+    public boolean isRevealed = false;
     int MonsterId = -1;
     ArrayList<Integer> Artefacts = new ArrayList<Integer>();
     public int X;

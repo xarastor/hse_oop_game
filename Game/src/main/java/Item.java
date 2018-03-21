@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Created by Titaninus on 15.03.2018.
  */
-public class Item extends IInventorable {
+public class Item implements IInventorable {
 
     public enum ItemType {
         Helmet,
@@ -28,7 +28,6 @@ public class Item extends IInventorable {
         ItemLevel = level;
     }
 
-    @Override
     public void pickup() {
 
     }

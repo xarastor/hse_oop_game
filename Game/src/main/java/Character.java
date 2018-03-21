@@ -4,7 +4,7 @@ import java.util.List;
 /**
  * Created by titaninus on 14.03.18.
  */
-public class Character extends IEventable{
+public class Character implements IEventable{
     /**
      * Basic characterictics
      */
@@ -191,7 +191,7 @@ public class Character extends IEventable{
 
     protected boolean inBattle;
 
-    @Override
+
     public void onGlobalTurn() {
         for (int i = 0; i < modifiers.size(); ++i) {
             Modifier modifier = modifiers.get(i);
@@ -209,7 +209,7 @@ public class Character extends IEventable{
         CurrentStamina = Math.min(getStaminaPoints(), CurrentStamina + 10 * getStaminaRegen());
 
     }
-    @Override
+
     public void onBattleTurn() {
         if (inBattle) {
             for (int i = 0; i < modifiers.size(); ++i) {
@@ -230,11 +230,11 @@ public class Character extends IEventable{
         CurrentMana = Math.min(getManaPoints(), CurrentMana + getManaRegen());
         CurrentStamina = Math.min(getStaminaPoints(), CurrentStamina + getStaminaRegen());
     }
-    @Override
+
     public void onBattleStart() {
         inBattle = true;
     }
-    @Override
+
     public void onBattleEnd() {
         for (int i = 0; i < modifiers.size(); ++i) {
             Modifier modifier = modifiers.get(i);
