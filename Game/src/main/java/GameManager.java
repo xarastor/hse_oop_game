@@ -13,10 +13,12 @@ public class GameManager {
     }
 
     public Player player;
+    public Map map;
     public  GameManager() {
         ItemStorage.LoadAllItems();
         MonsterStorage.LoadAllMonsters();
         player = new Player();
+        map = MapGenerator.GenerateMap(50, 50);
     }
 
     public void Start() {
