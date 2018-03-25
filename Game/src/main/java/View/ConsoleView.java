@@ -2,22 +2,19 @@ package View;
 
 import Ability.Ability;
 import Ability.AbilityStorage;
+import Ability.AbilityType;
+import Character.Monster;
+import Character.MonsterStorage;
 import Item.Item;
 import Manager.GameManager;
-import Map.CellType;
 import Map.Cell;
 import Map.Map;
 import Character.Player;
-import Character.MonsterStorage;
+import Character.GameCharacter;
 import Item.ItemStorage;
 import Item.ItemType;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
-
-import static Map.CellType.*;
-import static Map.CellType.Artifact;
-import static Map.CellType.Empty;
 
 public class ConsoleView implements IView {
 
@@ -86,7 +83,8 @@ public class ConsoleView implements IView {
                 break;
             }
             case Monster: {
-                Print("На этой клетке есть монстр\n");
+                PrintFormat("На этой клетке есть монстр %s\n",
+                        MonsterStorage.Monsters.get(GameManager.getInstance().getCurrentCell().MonsterId).Name);
                 Print("Чтобы вступить в сражение нажмите 'F'\n");
                 break;
             }
@@ -110,7 +108,7 @@ public class ConsoleView implements IView {
     }
 
     private void ShowBattleHelp() {
-
+        Print("Ввведите Id навыка, который вы хотите применить\n");
     }
 
     private void ShowInventoryHelp() {
@@ -135,6 +133,9 @@ public class ConsoleView implements IView {
             Print("Чтобы повысить ловкость введите 'A'\n");
             Print("Чтобы повысить интеллект введите 'I'\n");
             Print("Чтобы повысить мудрость введите 'W'\n");
+        }
+        if (GameManager.getInstance().player.getAbilityPoint() > 0) {
+            Print("Чтобы купить навык введите 'Q' и введите Id навыка\n");
         }
         Print("Чтобы вернуться в главное меню введите 'B'\n");
     }
@@ -174,6 +175,79 @@ public class ConsoleView implements IView {
     public void AbilityDoesntExist() {
         Print("Такого навыка не существует\n");
 
+    }
+
+    public void StartBattle() {
+        Print("Битва началась!\n");
+    }
+
+    public void EnemyCast(Ability ability) {
+        if (ability.Type == AbilityType.SelfImposed) {
+            PrintFormat("Противник усилил себя: %s\n", ability.toString());
+        } else {
+            PrintFormat("Противник применил навык: %s\n Получено %d урона\n", ability.toString(), ability.Damage);
+        }
+    }
+
+    public void EnemyFailCast() {
+        Print("Противнику не удалось применить навык\n");
+    }
+
+    public void PlayerCast(Ability ability) {
+        if (ability.Type == AbilityType.SelfImposed) {
+            PrintFormat("Вы усилили себя: %s\n", ability.toString());
+        } else {
+            PrintFormat("Вы применили навык: %s\n Нанесено %d урона\n", ability.toString(), ability.Damage);
+        }
+    }
+
+    public void NotEnoughMana() {
+        Print("Недостаточно маны\n");
+    }
+
+    public void NotEnoughStamina() {
+        Print("Недостаточно выносливости\n");
+
+    }
+
+    public void NotEnoughHealth() {
+        Print("Недостаточно здоровья\n");
+
+    }
+
+    public void PlayerDied() {
+        Print("Вы погибли в битве\n");
+    }
+
+    public void WinBattle(Monster enemy) {
+        Print("Вы победили в битве\n");
+        PrintFormat("Награда: %d опыта\n", enemy.XPReward);
+
+    }
+
+    private void PrintBattleInfo(GameCharacter gameCharacter) {
+        PrintFormat("Cила - %d; Ловкость - %d; Интеллект - %d; Мудрость - %d\n",
+                gameCharacter.getStrength(), gameCharacter.getAgility(), gameCharacter.getIntelligence(), gameCharacter.getWisdom());
+
+        PrintFormat("Здоровье - %d/%d + %d/ход;\n",
+                gameCharacter.getCurrentHealth(), gameCharacter.getHealthPoints(), gameCharacter.getHealthRegen());
+        PrintFormat("Мана - %d/%d + %d/ход;\n",
+                gameCharacter.getCurrentMana(), gameCharacter.getManaPoints(), gameCharacter.getManaRegen());
+        PrintFormat("Выносливость - %d/%d + %d/ход;\n",
+                gameCharacter.getCurrentStamina(), gameCharacter.getStaminaPoints(), gameCharacter.getStaminaRegen());
+    }
+
+    public void ShowBattleMenu() {
+        Print("=== Игрок ===\n");
+        PrintBattleInfo(GameManager.getInstance().player);
+
+        Print("= Доступные навыки =\n");
+        for(int index: GameManager.getInstance().player.getAbilities()) {
+            PrintFormat("%s\n", AbilityStorage.Abilities.get(index).toString());
+        }
+
+        PrintFormat("=== Монстр %s ===\n", GameManager.getInstance().GetEnemy().Name);
+        PrintBattleInfo(GameManager.getInstance().GetEnemy());
     }
 
     public void ShowCurrentHelp() {
@@ -278,8 +352,17 @@ public class ConsoleView implements IView {
         for (Integer abilityId: GameManager.getInstance().player.getAbilities()) {
             Print(AbilityStorage.Abilities.get(abilityId).toString());
         }
-
         PrintFormat("Доступно очков характеристик: %d\n", GameManager.getInstance().player.getCharacterPoint());
+        PrintFormat("Доступно очков навыков: %d\n", GameManager.getInstance().player.getAbilityPoint());
+
+        Print("=== Доступные для покупки навыки ===");
+        for (Ability ability: AbilityStorage.Abilities.values()) {
+            if (    !GameManager.getInstance().player.getAbilities().contains(ability.Id)
+                    && ability.Level <= GameManager.getInstance().player.getLevel()
+                    && ability.Level <= GameManager.getInstance().player.getAbilityPoint()) {
+                PrintFormat("%s\n", ability.toString());
+            }
+        }
     }
 
     public void ShowMap() {

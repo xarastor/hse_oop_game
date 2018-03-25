@@ -1,5 +1,6 @@
 package Manager;
 
+import Ability.Ability;
 import Ability.AbilityStorage;
 import Controller.ConsoleController;
 import Controller.IController;
@@ -8,6 +9,7 @@ import Map.*;
 import Character.*;
 import View.ConsoleView;
 import View.IView;
+import sun.invoke.empty.Empty;
 
 /**
  * Created by titaninus on 13.03.18.
@@ -16,8 +18,10 @@ public class GameManager {
 
     public IView renderer = new ConsoleView();
     public IController controller = new ConsoleController();
+    private BattleManager battleManager;
 
     private static GameManager Instance;
+    private int EmptyCells;
 
     public static GameManager getInstance() {
         if (Instance == null) {
@@ -37,9 +41,13 @@ public class GameManager {
     public boolean isWaitingForInventoryId;
 
     public boolean inCharacterMenu = false;
+    public boolean isWaitingForAbilityId;
+
+    public boolean isWaitingForBattleId;
 
     public Player player;
     public Map map;
+    public int NotRevealedCells;
     public int PlayerX;
     public int PlayerY;
 
@@ -47,6 +55,7 @@ public class GameManager {
         ItemStorage.LoadAllItems();
         MonsterStorage.LoadAllMonsters();
         AbilityStorage.LoadAllAbilities();
+        battleManager = new BattleManager();
         player = new Player();
         map = MapGenerator.GenerateMap(10, 10);
     }
@@ -113,6 +122,7 @@ public class GameManager {
         getCurrentCell().isRevealed = true;
         isGameStarted = true;
         inMainMenu = true;
+        EmptyCells = 1;
         renderer.Start();
     }
 
@@ -131,6 +141,10 @@ public class GameManager {
             renderer.WrongGlobalTurn();
         } else {
             PlayerY += 1;
+            if (!getCurrentCell().isRevealed && getCurrentCell().Type == CellType.Empty) {
+                EmptyCells += 1;
+                CheckWinCondition();
+            }
             getCurrentCell().isRevealed = true;
             GlobalTurn();
         }
@@ -141,6 +155,10 @@ public class GameManager {
             renderer.WrongGlobalTurn();
         } else {
             PlayerY -= 1;
+            if (!getCurrentCell().isRevealed && getCurrentCell().Type == CellType.Empty) {
+                EmptyCells += 1;
+                CheckWinCondition();
+            }
             getCurrentCell().isRevealed = true;
             GlobalTurn();
         }
@@ -151,6 +169,10 @@ public class GameManager {
             renderer.WrongGlobalTurn();
         } else {
             PlayerX += 1;
+            if (!getCurrentCell().isRevealed && getCurrentCell().Type == CellType.Empty) {
+                EmptyCells += 1;
+                CheckWinCondition();
+            }
             getCurrentCell().isRevealed = true;
             GlobalTurn();
         }
@@ -161,6 +183,10 @@ public class GameManager {
             renderer.WrongGlobalTurn();
         } else {
             PlayerX -= 1;
+            if (!getCurrentCell().isRevealed && getCurrentCell().Type == CellType.Empty) {
+                EmptyCells += 1;
+                CheckWinCondition();
+            }
             getCurrentCell().isRevealed = true;
             GlobalTurn();
         }
@@ -216,5 +242,81 @@ public class GameManager {
 
     public void AbilityDoesntExist() {
         renderer.AbilityDoesntExist();
+    }
+
+    public void StartBattle() {
+
+        battleManager.StartBattle(getCurrentCell().MonsterId);
+    }
+
+    public void onBattleStart() {
+        ResetMenus();
+        inBattleMenu = true;
+        isWaitingForBattleId = true;
+        renderer.StartBattle();
+        renderer.ShowBattleMenu();
+    }
+
+    public Monster GetEnemy() {
+        return battleManager.Enemy;
+    }
+
+    public void PlayerTurn(int abilityIndex) {
+
+        Ability ability = AbilityStorage.Abilities.get(abilityIndex);
+
+        if (player.getCurrentHealth() >= ability.HealthCost) {
+            if (player.getCurrentMana() >= ability.ManaCost) {
+                if (player.getCurrentStamina() >= ability.StaminaCost) {
+                    battleManager.ApplyAbility(abilityIndex, player, battleManager.Enemy);
+                    renderer.PlayerCast(ability);
+                    battleManager.onBattleTurn();
+                    if (battleManager.Enemy.getCurrentHealth() <= 0) {
+                        WinBattle(battleManager.Enemy);
+                    } else {
+                        battleManager.EnemyTurn();
+                    }
+                } else {
+                    renderer.NotEnoughStamina();
+                }
+            } else {
+                renderer.NotEnoughMana();
+            }
+        } else {
+            renderer.NotEnoughHealth();
+        }
+
+    }
+
+    public void WinBattle(Monster Enemy) {
+        isWaitingForBattleId = false;
+        battleManager.onBattleEnd();
+        player.AddExperience(Enemy.XPReward);
+        getCurrentCell().Type = CellType.Artifact;
+        renderer.WinBattle(Enemy);
+        ShowMainMenu();
+    }
+
+    public void pickUp() {
+        for (Integer itemId : getCurrentCell().Artifacts) {
+            ItemStorage.Items.get(itemId).pickup();
+        }
+        getCurrentCell().Type = CellType.Empty;
+        renderer.ItemsPickedUp(GameManager.getInstance().getCurrentCell().Artifacts);
+        EmptyCells += 1;
+        CheckWinCondition();
+    }
+
+    private void CheckWinCondition() {
+        if (EmptyCells == map.Width * map.Height) {
+            renderer.WinGame();
+            EndGame();
+        }
+    }
+
+    public void LoseGame() {
+        renderer.LoseGame();
+        inMainMenu = true;
+        EndGame();
     }
 }

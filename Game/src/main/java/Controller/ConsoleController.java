@@ -1,8 +1,10 @@
 package Controller;
 
+import Ability.AbilityStorage;
 import Item.ItemStorage;
 import Manager.GameManager;
 import Map.Cell;
+import Map.CellType;
 
 import java.io.IOException;
 import java.lang.Character;
@@ -19,13 +21,12 @@ public class ConsoleController implements IController {
     public String ReadFromConsole() {
         try {
             String res = "";
-            char symbol =(char)System.in.read();
-            res += symbol;
             char ignore;
             do {
                 ignore = (char) System.in.read();
-                if (ignore != '\n')
+                if (ignore != '\n') {
                     res += ignore;
+                }
             } while(ignore != '\n');
             return res;
         } catch (IOException e) {
@@ -55,6 +56,34 @@ public class ConsoleController implements IController {
             GameManager.getInstance().EquippedEnd();
             GameManager.getInstance().SelectInventoryCategory(DefaultMenu);
             GameManager.getInstance().renderer.ShowInventory();
+            return;
+        }
+        if (GameManager.getInstance().isWaitingForAbilityId) {
+            try {
+                int AbilityId = Integer.parseInt(inputString);
+                GameManager.getInstance().player.BuyAbility(AbilityId);
+                GameManager.getInstance().isWaitingForAbilityId = false;
+            } catch (java.lang.NumberFormatException e) {
+                GameManager.getInstance().renderer.WrongIntegerInput();
+            }
+            GameManager.getInstance().renderer.ShowCharacterMenu();
+            return;
+        }
+        if (GameManager.getInstance().isWaitingForBattleId) {
+            try {
+                int AbilityId = Integer.parseInt(inputString);
+                if (AbilityStorage.Abilities.containsKey(AbilityId) && GameManager.getInstance().player.getAbilities().contains(AbilityId)) {
+                    GameManager.getInstance().PlayerTurn(AbilityId);
+                    if (GameManager.getInstance().inBattleMenu) {
+                        GameManager.getInstance().renderer.ShowBattleMenu();
+                    }
+                } else {
+                    GameManager.getInstance().renderer.AbilityDoesntExist();
+                }
+
+            } catch (java.lang.NumberFormatException e) {
+                GameManager.getInstance().renderer.WrongIntegerInput();
+            }
 
         } else {
             switch (Character.toUpperCase(symbol)) {
@@ -124,7 +153,7 @@ public class ConsoleController implements IController {
                 }
                 case 'B': {
                     if (GameManager.getInstance().isGameStarted) {
-                        if (    GameManager.getInstance().inMapMenu ||
+                        if (GameManager.getInstance().inMapMenu ||
                                 GameManager.getInstance().inInventoryMenu ||
                                 GameManager.getInstance().inCharacterMenu) {
                             GameManager.getInstance().ShowMainMenu();
@@ -204,11 +233,7 @@ public class ConsoleController implements IController {
                     if (GameManager.getInstance().isGameStarted) {
                         if (GameManager.getInstance().inMainMenu || GameManager.getInstance().inMapMenu) {
                             if (GameManager.getInstance().getCurrentCell().Type == Map.CellType.Artifact) {
-                                for (Integer itemId : GameManager.getInstance().getCurrentCell().Artifacts) {
-                                    ItemStorage.Items.get(itemId).pickup();
-                                }
-                                GameManager.getInstance().getCurrentCell().Type = Map.CellType.Empty;
-                                GameManager.getInstance().renderer.ItemsPickedUp(GameManager.getInstance().getCurrentCell().Artifacts);
+                                GameManager.getInstance().pickUp();
                             }
                         } else {
                             if (GameManager.getInstance().inInventoryMenu) {
@@ -271,6 +296,26 @@ public class ConsoleController implements IController {
                             GameManager.getInstance().TryToEquipItem();
                             GameManager.getInstance().renderer.ShowEquipHelp();
                         } else {
+                            if (GameManager.getInstance().inCharacterMenu) {
+                                GameManager.getInstance().isWaitingForAbilityId = true;
+                            } else {
+                                GameManager.getInstance().renderer.WrongInput();
+                            }
+                        }
+
+                    } else {
+                        GameManager.getInstance().renderer.GameNotStarted();
+                    }
+                    break;
+                }
+                case 'F': {
+                    if (GameManager.getInstance().isGameStarted) {
+                        if (GameManager.getInstance().inMapMenu ||
+                                GameManager.getInstance().inMainMenu) {
+                            if (GameManager.getInstance().getCurrentCell().Type == CellType.Monster) {
+                                GameManager.getInstance().StartBattle();
+                            }
+                        } else {
                             GameManager.getInstance().renderer.WrongInput();
                         }
 
@@ -291,7 +336,9 @@ public class ConsoleController implements IController {
                 }
             }
         }
-        if (!GameManager.getInstance().isWaitingForInventoryId) {
+        if (    !GameManager.getInstance().isWaitingForInventoryId
+                && !GameManager.getInstance().isWaitingForAbilityId
+                && GameManager.getInstance().isValidGame) {
             GameManager.getInstance().renderer.ShowCurrentHelp();
         }
     }

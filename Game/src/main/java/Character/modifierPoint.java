@@ -1,4 +1,5 @@
 package Character;
 
-public class modifierPoint {
+public enum ModifierPoint {
+    Agility, Intelligence, Wisdom, ManaRegen, HealthRegen, StaminaRegen, Luck, Strength
 }

@@ -34,7 +34,7 @@ public class Modifier {
         value = val;
     }
 
-    public Modifier Copy(Modifier prototype) {
+    public static Modifier Copy(Modifier prototype) {
         return new Modifier(prototype.type, prototype.isTemporary, prototype.durationBattle, prototype.durationGlobal, prototype.value);
     }
 

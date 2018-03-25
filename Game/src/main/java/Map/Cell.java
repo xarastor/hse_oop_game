@@ -7,7 +7,7 @@ public class Cell {
 
     public CellType Type;
     public boolean isRevealed = false;
-    int MonsterId = -1;
+    public int MonsterId = -1;
     public ArrayList<Integer> Artifacts = new ArrayList<Integer>();
     public int X;
     public int Y;

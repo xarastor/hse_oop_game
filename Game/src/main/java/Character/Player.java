@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * Created by titaninus on 14.03.18.
  */
-public class Player extends Character {
+public class Player extends GameCharacter {
     public static final ArrayList<Integer> XPLevels = new ArrayList<Integer>(
             Arrays.asList(0, 100, 200, 400, 800, 1600, 3200, 6400, 12800, 25600, 51200, 102400, 999999999)
     );
@@ -19,7 +19,7 @@ public class Player extends Character {
     private int CharacterPoint = 0;
 
     public static final int CharacterPointsOnLevelUp = 10;
-    public static final int AbilityPointsOnLevelUp = 3;
+    public static final int AbilityPointsOnLevelUp = 5;
     public static final int StrengthOnLevelUp = 2;
     public static final int AgilityOnLevelUp = 2;
     public static final int IntelligenceOnLevelUp = 2;
@@ -122,9 +122,9 @@ public class Player extends Character {
         if (getAbilityPoint() > 0) {
             if (!getAbilities().contains(index)) {
                 if (AbilityStorage.Abilities.containsKey(index)) {
-                    if (AbilityStorage.Abilities.get(index).Level > Level) {
+                    if (AbilityStorage.Abilities.get(index).Level <= Level) {
                         addAbility(index);
-                        CharacterPoint = getCharacterPoint() - 1;
+                        AbilityPoint = getAbilityPoint() - AbilityStorage.Abilities.get(index).Level;
                         return true;
                     } else {
                         GameManager.getInstance().TooLowLevelForAbility();

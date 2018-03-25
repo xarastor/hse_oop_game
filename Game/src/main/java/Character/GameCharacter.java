@@ -13,7 +13,7 @@ import static Character.ModifierPoint.Strength;
 /**
  * Created by titaninus on 14.03.18.
  */
-public class Character implements IEventable {
+public class GameCharacter implements IEventable {
     /**
      * Basic characterictics
      */
@@ -87,12 +87,7 @@ public class Character implements IEventable {
     /**
      * Advanced characteristics
      */
-    protected int HealthPoints;
-    protected int ManaPoints;
-    protected int StaminaPoints;
-    protected int HealthRegen;
-    protected int ManaRegen;
-    protected int StaminaRegen;
+
     protected int CurrentHealth;
     protected int CurrentMana;
     protected int CurrentStamina;
@@ -348,11 +343,18 @@ public class Character implements IEventable {
         return CurrentHealth > 0;
     }
 
+    public void SpendMana(int amount) {
+        CurrentMana -= amount;
+    }
+
+    public void SpendStamina(int amount) {
+        CurrentStamina -= amount;
+    }
 
     /**
      * Constructors
      */
-    public Character() {
+    public GameCharacter() {
         Strength = 10;
         Agility = 10;
         Intelligence = 5;

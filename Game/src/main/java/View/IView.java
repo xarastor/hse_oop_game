@@ -1,5 +1,8 @@
 package View;
 
+import Ability.Ability;
+import Character.Monster;
+
 import java.util.ArrayList;
 
 public interface IView {
@@ -61,4 +64,24 @@ public interface IView {
     void TooLowLevelForAbility();
 
     void AbilityDoesntExist();
+
+    void StartBattle();
+
+    void EnemyCast(Ability ability);
+
+    void EnemyFailCast();
+
+    void PlayerCast(Ability ability);
+
+    void NotEnoughMana();
+
+    void NotEnoughStamina();
+
+    void NotEnoughHealth();
+
+    void PlayerDied();
+
+    void WinBattle(Monster enemy);
+
+    void ShowBattleMenu();
 }
