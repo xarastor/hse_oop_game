@@ -1,4 +1,9 @@
+package Map;
+
 import java.util.Random;
+
+import Character.MonsterStorage;
+import Item.ItemStorage;
 
 public class MapGenerator {
 
@@ -16,16 +21,16 @@ public class MapGenerator {
         return GetDistance(x, y, generated.StartX, generated.StartY);
     }
 
-    public static Cell.CellType generateCellType() {
+    public static CellType generateCellType() {
         Random random = new Random();
         double chance = random.nextDouble();
         if (chance > monsterProbablity) {
-            return Cell.CellType.Monster;
+            return CellType.Monster;
         }
         if (chance > artefactProbability) {
-            return Cell.CellType.Artifact;
+            return CellType.Artifact;
         }
-        return Cell.CellType.Empty;
+        return CellType.Empty;
     }
 
     public static Integer generateMonster(double distance) {
@@ -53,7 +58,7 @@ public class MapGenerator {
         for (int i = 0; i < width; ++i) {
             for (int j = 0; j < height; ++j) {
                 if (generated.StartX == i && generated.StartY == j) {
-                    generated.Cells.get(i).add(new Cell(Cell.CellType.Empty, i, j));
+                    generated.Cells.get(i).add(new Cell(CellType.Empty, i, j));
                 } else {
                     generated.Cells.get(i).add(generateCell(i, j));
                 }

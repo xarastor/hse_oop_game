@@ -1,3 +1,8 @@
+package Character;
+
+import Item.*;
+
+import java.lang.Character;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -5,19 +10,26 @@ public class Inventory {
 
     public Inventory(Player player) {
         owner = player;
-        EquippedItems = new int[Item.ItemType.values().length];
+        EquippedItems = new int[ItemType.values().length];
         for (int i = 0; i < EquippedItems.length; i++) {
             EquippedItems[i] = -1;
+        }
+        ItemsByCategory = new HashMap<ItemType, ArrayList<Integer>>();
+        for (ItemType type : ItemType.values()) {
+            ItemsByCategory.put(type, new ArrayList<Integer>());
         }
     }
     Player owner;
     public ArrayList<Integer> items = new ArrayList<Integer>();
+
+    public HashMap<ItemType, ArrayList<Integer>> ItemsByCategory;
 
     public int[] EquippedItems; // Helmet, Weapon, Boots, Gloves, Armor, Pants
 
     public void pickup(Integer Id) {
         if (!items.contains(Id)) {
             items.add(Id);
+            ItemsByCategory.get(ItemStorage.Items.get(Id).Type).add(Id);
         }
     }
 

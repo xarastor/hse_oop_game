@@ -1,15 +1,14 @@
+package Map;
+
 import java.util.ArrayList;
+import Character.Monster;
 
 public class Cell {
-    public enum CellType {
-        Empty,
-        Monster,
-        Artifact
-    }
+
     public CellType Type;
     public boolean isRevealed = false;
     int MonsterId = -1;
-    ArrayList<Integer> Artifacts = new ArrayList<Integer>();
+    public ArrayList<Integer> Artifacts = new ArrayList<Integer>();
     public int X;
     public int Y;
 
@@ -18,7 +17,7 @@ public class Cell {
         X = x;
         Y = y;
     }
-    public void AddArtifact(Item item) {
+    public void AddArtifact(Item.Item item) {
         Artifacts.add(item.Id);
     }
 

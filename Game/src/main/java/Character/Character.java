@@ -1,10 +1,19 @@
+package Character;
+
+import Ability.Ability;
+import Manager.IEventable;
+
 import java.util.ArrayList;
-import java.util.List;
+
+import static Character.ModifierPoint.*;
+import static Character.ModifierPoint.Agility;
+import static Character.ModifierPoint.Strength;
+
 
 /**
  * Created by titaninus on 14.03.18.
  */
-public class Character implements IEventable{
+public class Character implements IEventable {
     /**
      * Basic characterictics
      */
@@ -104,15 +113,15 @@ public class Character implements IEventable{
     }
 
     public int getHealthRegen() {
-        return getWisdom() * 2 + getStrength();
+        return getWisdom() * 2 + getStrength() + ModifyHealthRegen;
     }
 
     public int getManaRegen() {
-        return getWisdom() * 2 + getIntelligence();
+        return getWisdom() * 2 + getIntelligence() + ModifyManaRegen;
     }
 
     public int getStaminaRegen() {
-        return getAgility() * 2 + getIntelligence();
+        return getAgility() * 2 + getIntelligence() + ModifyStaminaRegen;
     }
 
     public int getCurrentHealth() {
@@ -137,6 +146,18 @@ public class Character implements IEventable{
         return modifiers;
     }
 
+    protected void CharacterRefresh() {
+        if (getCurrentHealth() > getHealthPoints()) {
+            CurrentHealth = getHealthPoints();
+        }
+        if (getCurrentMana() > getManaPoints()) {
+            CurrentMana = getManaPoints();
+        }
+        if (getCurrentStamina() > getStaminaPoints()) {
+            CurrentStamina = getStaminaPoints();
+        }
+    }
+
     public void removeModifierExternal(Modifier modifier) {
         if (!modifiers.contains(modifier)) {
             return;
@@ -145,42 +166,60 @@ public class Character implements IEventable{
         switch (modifier.type) {
             case Agility:
                 ModifyAgility -= modifier.value;
+                break;
             case Strength:
                 ModifyStrength -= modifier.value;
+                break;
             case Intelligence:
                 ModifyIntelligence -= modifier.value;
+                break;
             case Wisdom:
                 ModifyWisdom -= modifier.value;
+                break;
             case HealthRegen:
                 ModifyHealthRegen -= modifier.value;
+                break;
             case ManaRegen:
                 ModifyManaRegen -= modifier.value;
+                break;
             case StaminaRegen:
                 ModifyStaminaRegen -= modifier.value;
+                break;
             case Luck:
                 ModifyLuck -= modifier.value;
+                break;
         }
+        CharacterRefresh();
     }
 
     protected void removeModifier(Modifier modifier) {
         switch (modifier.type) {
             case Agility:
                 ModifyAgility -= modifier.value;
+                break;
             case Strength:
                 ModifyStrength -= modifier.value;
+                break;
             case Intelligence:
                 ModifyIntelligence -= modifier.value;
+                break;
             case Wisdom:
                 ModifyWisdom -= modifier.value;
+                break;
             case HealthRegen:
                 ModifyHealthRegen -= modifier.value;
+                break;
             case ManaRegen:
                 ModifyManaRegen -= modifier.value;
+                break;
             case StaminaRegen:
                 ModifyStaminaRegen -= modifier.value;
+                break;
             case Luck:
                 ModifyLuck -= modifier.value;
+                break;
         }
+        CharacterRefresh();
     }
 
     public boolean addModifier(Modifier modifier) {
@@ -192,25 +231,47 @@ public class Character implements IEventable{
         switch (modifier.type) {
             case Agility:
                 ModifyAgility += modifier.value;
+                break;
             case Strength:
                 ModifyStrength += modifier.value;
+                break;
             case Intelligence:
                 ModifyIntelligence += modifier.value;
+                break;
             case Wisdom:
                 ModifyWisdom += modifier.value;
+                break;
             case HealthRegen:
                 ModifyHealthRegen += modifier.value;
+                break;
             case ManaRegen:
                 ModifyManaRegen += modifier.value;
+                break;
             case StaminaRegen:
                 ModifyStaminaRegen += modifier.value;
+                break;
             case Luck:
                 ModifyLuck += modifier.value;
+                break;
         }
         modifiers.add(modifier);
         return true;
     }
 
+
+    /**
+     * Ability functionality
+     */
+
+    ArrayList<Integer> Abilities = new ArrayList<Integer>();
+
+        public ArrayList<Integer> getAbilities() {
+            return Abilities;
+        }
+
+        void addAbility(int index) {
+            Abilities.add(index);
+        }
 
     /**
      * Events for updating characteristics
@@ -231,9 +292,9 @@ public class Character implements IEventable{
                 }
             }
         }
-        CurrentHealth = Math.min(getHealthPoints(), CurrentHealth + 10 * getHealthRegen());
-        CurrentMana = Math.min(getManaPoints(), CurrentMana + 10 * getManaRegen());
-        CurrentStamina = Math.min(getStaminaPoints(), CurrentStamina + 10 * getStaminaRegen());
+        CurrentHealth = Math.min(getHealthPoints(), CurrentHealth + 2 * getHealthRegen());
+        CurrentMana = Math.min(getManaPoints(), CurrentMana + 2 * getManaRegen());
+        CurrentStamina = Math.min(getStaminaPoints(), CurrentStamina + 2 * getStaminaRegen());
 
     }
 
@@ -294,8 +355,13 @@ public class Character implements IEventable{
     public Character() {
         Strength = 10;
         Agility = 10;
-        Intelligence = 10;
-        Wisdom = 10;
+        Intelligence = 5;
+        Wisdom = 5;
         Luck = 2;
+        CurrentHealth = getHealthPoints();
+        CurrentMana = getManaPoints() / 2;
+        CurrentStamina = getStaminaPoints() / 2;
+        addAbility(0);
+        addAbility(1);
     }
 }

@@ -1,3 +1,8 @@
+package Item;
+
+import Manager.GameManager;
+import Character.Modifier;
+
 import java.util.ArrayList;
 
 /**
@@ -5,17 +10,9 @@ import java.util.ArrayList;
  */
 public class Item implements IInventorable {
 
-    public enum ItemType {
-        Helmet,
-        Weapon,
-        Boots,
-        Gloves,
-        Armor,
-        Pants
-    }
 
     public ArrayList<Modifier> Modifiers;
-    ItemType Type;
+    public ItemType Type;
     public String Name;
     public int Id;
     public int ItemLevel;
@@ -29,6 +26,11 @@ public class Item implements IInventorable {
     }
 
     public void pickup() {
-        GameManager.getInstance().player.inventory.pickup(Id);
+        GameManager.getInstance().player.getInventory().pickup(Id);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Id: %d, Уровень: %d,  Имя: %s, Модификаторы:\n %s\n", Id, ItemLevel, Name, Modifier.ModifiersArrayToString(Modifiers));
     }
 }

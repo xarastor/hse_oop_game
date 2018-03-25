@@ -1,3 +1,5 @@
+package Manager;
+
 /**
  * Created by titaninus on 14.03.18.
  */

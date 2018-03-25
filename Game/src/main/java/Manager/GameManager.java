@@ -1,12 +1,21 @@
-import javafx.application.Application;
+package Manager;
+
+import Ability.AbilityStorage;
+import Controller.ConsoleController;
+import Controller.IController;
+import Item.ItemStorage;
+import Map.*;
+import Character.*;
+import View.ConsoleView;
+import View.IView;
 
 /**
  * Created by titaninus on 13.03.18.
  */
 public class GameManager {
 
-    IView renderer = new ConsoleView();
-    IController controller = new ConsoleController();
+    public IView renderer = new ConsoleView();
+    public IController controller = new ConsoleController();
 
     private static GameManager Instance;
 
@@ -22,7 +31,12 @@ public class GameManager {
     public boolean inMapMenu = false;
     public boolean inBattleMenu = false;
     public boolean inMainMenu = false;
+
     public boolean inInventoryMenu = false;
+    public int SelectedInventoryMenuCategory = -1;
+    public boolean isWaitingForInventoryId;
+
+    public boolean inCharacterMenu = false;
 
     public Player player;
     public Map map;
@@ -32,6 +46,7 @@ public class GameManager {
     public  GameManager() {
         ItemStorage.LoadAllItems();
         MonsterStorage.LoadAllMonsters();
+        AbilityStorage.LoadAllAbilities();
         player = new Player();
         map = MapGenerator.GenerateMap(10, 10);
     }
@@ -49,6 +64,7 @@ public class GameManager {
         inMainMenu = false;
         inBattleMenu = false;
         inInventoryMenu = false;
+        inCharacterMenu = false;
     }
 
     public void ShowMap() {
@@ -63,9 +79,27 @@ public class GameManager {
         renderer.ShowInventory();
     }
 
+    public void SelectInventoryCategory(int Id) {
+        SelectedInventoryMenuCategory = Id;
+    }
+
+    public void TryToEquipItem() {
+        isWaitingForInventoryId = true;
+    }
+
+    public void EquippedEnd() {
+        isWaitingForInventoryId = false;
+    }
+
     public void ShowMainMenu() {
         ResetMenus();
         inMainMenu = true;
+    }
+
+    public void ShowCharacterMenu() {
+        ResetMenus();
+        inCharacterMenu = true;
+        renderer.ShowCharacterMenu();
     }
 
     public void Awake() {
@@ -98,6 +132,7 @@ public class GameManager {
         } else {
             PlayerY += 1;
             getCurrentCell().isRevealed = true;
+            GlobalTurn();
         }
     }
 
@@ -107,6 +142,7 @@ public class GameManager {
         } else {
             PlayerY -= 1;
             getCurrentCell().isRevealed = true;
+            GlobalTurn();
         }
     }
 
@@ -116,6 +152,7 @@ public class GameManager {
         } else {
             PlayerX += 1;
             getCurrentCell().isRevealed = true;
+            GlobalTurn();
         }
     }
 
@@ -125,7 +162,59 @@ public class GameManager {
         } else {
             PlayerX -= 1;
             getCurrentCell().isRevealed = true;
+            GlobalTurn();
         }
     }
 
+    public void GlobalTurn() {
+        player.onGlobalTurn();
+    }
+
+    public void LevelUp() {
+        renderer.OnLevelUp();
+    }
+
+    public void Cheat() {
+        player.AddExperience(200);
+    }
+
+    public void StrengthUp() {
+        if (player.StrengthUp())
+            renderer.OnCharacteristicUp(0, 1);
+    }
+
+    public void AgilityUp() {
+        if (player.AgilityUp())
+        renderer.OnCharacteristicUp(1, 1);
+    }
+
+    public void IntelligenceUp() {
+        if (player.IntelligenceUp())
+        renderer.OnCharacteristicUp(2, 1);
+    }
+
+    public void WisdomUp() {
+        if (player.WisdomUp())
+        renderer.OnCharacteristicUp(3, 1);
+    }
+
+    public void NotEnoughCharacterPoints() {
+        renderer.NotEnoughCharacterPoints();
+    }
+
+    public void AlreadyHaveAbility() {
+        renderer.AlreadyHaveAbility();
+    }
+
+    public void NotEnoughAbilityPoints() {
+        renderer.NotEnoughAbilityPoints();
+    }
+
+    public void TooLowLevelForAbility() {
+        renderer.TooLowLevelForAbility();
+    }
+
+    public void AbilityDoesntExist() {
+        renderer.AbilityDoesntExist();
+    }
 }

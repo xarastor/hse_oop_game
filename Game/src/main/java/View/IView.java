@@ -1,3 +1,5 @@
+package View;
+
 import java.util.ArrayList;
 
 public interface IView {
@@ -33,4 +35,30 @@ public interface IView {
     void ItemsPickedUp(ArrayList<Integer> ItemsId);
 
     void ShowInventory();
+
+    void ItemEquipped();
+
+    void ItemNotInInventory();
+
+    void ShowEquipHelp();
+
+    void WrongIntegerInput();
+
+    void ShowCharacterMenu();
+
+    void ShowCharacterHelp();
+
+    void OnLevelUp();
+
+    void OnCharacteristicUp(int type, int amount);
+
+    void NotEnoughCharacterPoints();
+
+    void AlreadyHaveAbility();
+
+    void NotEnoughAbilityPoints();
+
+    void TooLowLevelForAbility();
+
+    void AbilityDoesntExist();
 }
