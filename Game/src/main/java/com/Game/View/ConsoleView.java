@@ -16,44 +16,87 @@ import com.Game.Item.ItemType;
 
 import java.util.ArrayList;
 
+/**
+ * Класс реализующий интерфейс IView для конслои.
+ * @see IView
+ * @author titaninus
+ * @version 1.1
+ */
 public class ConsoleView implements IView {
 
+    /** Обозначение неоткрытой клетки */
     private final String NotRevealed = "# ";
+
+    /** Обозначение положения пользователя */
     private final String PlayerPos = "X ";
+
+    /** Обозначение клетки с предметами */
     private final String ArtifactPos = "A ";
+
+    /** Обозначение клетки с мнстром */
     private final String EnemyPos = "E ";
+
+    /** Обозначение пустой клетки */
     private final String EmptyPos = "O ";
 
+    /** Имена навыков для отображения */
     private final String[] CharNames = {"Сила", "Ловкость", "Интеллект", "Мудрость", "Регенерация маны", "Регенерация здоровья", "Регенерация выносливости", "Удача"};
 
+    /**
+     * Распечатать собщение в консоль
+     * @param message
+     */
     public void Print(String message) {
         System.out.print(message);
     }
 
+    /**
+     * Распечатать сообщение s с аргументами args в консоль
+     * @param s
+     * @param args
+     */
     private void PrintFormat(String s, Object... args) {
         Print(String.format(s, args));
     }
 
+    /**
+     * @see IView
+     */
     public void Start() {
         Print("Начата новая игра\n");
     }
 
+    /**
+     * @see IView
+     */
     public void HardStop() {
         Print("Игра аварийно завершена\n");
     }
 
+    /**
+     * @see IView
+     */
     public void WrongInput() {
         Print("Введен неверный символ\n");
     }
 
+    /**
+     * @see IView
+     */
     public void AwakeApplication() {
         Print("Для того чтобы начать игру введите 'S'\n");
     }
 
+    /**
+     * @see IView
+     */
     public void GameNotStarted() {
         Print("Игра еще не начата\n");
     }
 
+    /**
+     * Показывает состояние текущей клетки
+     */
     private void ShowCellDefinition() {
         switch (GameManager.getInstance().getCurrentCell().Type) {
             case Empty: {
@@ -74,6 +117,9 @@ public class ConsoleView implements IView {
         }
     }
 
+    /**
+     * Показывает подсказку для главного меню
+     */
     private void ShowGlobalHelp() {
         ShowCellDefinition();
         Print(  "Чтобы открыть карту нажмите 'M'\n" +
@@ -82,6 +128,9 @@ public class ConsoleView implements IView {
                 "Чтобы завершить игру нажмите 'E'\n");
     }
 
+    /**
+     * Показывает подсказку для меню карты
+     */
     private void ShowMapHelp() {
         Print("Чтобы пойти вверх введите 'W'\n");
         Print("Чтобы пойти вниз введите 'S'\n");
@@ -90,10 +139,16 @@ public class ConsoleView implements IView {
         Print("Чтобы вернуться назад введите 'B'\n");
     }
 
+    /**
+     * Показывает подсказку для битвы
+     */
     private void ShowBattleHelp() {
         Print("Ввведите Id навыка, который вы хотите применить\n");
     }
 
+    /**
+     * Показывает подсказку для меню инвентаря
+     */
     private void ShowInventoryHelp() {
         Print("Чтобы открыть категорию шлемов введите 'H'\n");
         Print("Чтобы открыть категорию оружия введите 'W'\n");
@@ -108,7 +163,9 @@ public class ConsoleView implements IView {
         Print("Чтобы вернуться в главное меню введите 'B'\n");
     }
 
-
+    /**
+     * @see IView
+     */
     public void ShowCharacterHelp() {
 
         if (GameManager.getInstance().player.getCharacterPoint() > 0) {
@@ -123,6 +180,9 @@ public class ConsoleView implements IView {
         Print("Чтобы вернуться в главное меню введите 'B'\n");
     }
 
+    /**
+     * @see IView
+     */
     public void OnLevelUp() {
         Print("Уровень повышен!\n");
         PrintFormat("Очки характеристик +%d ", Player.CharacterPointsOnLevelUp);
@@ -134,36 +194,60 @@ public class ConsoleView implements IView {
         PrintFormat("Удача +%d \n", Player.LuckOnLevelUp);
     }
 
+    /**
+     * @see IView
+     */
     public void OnCharacteristicUp(int type, int amount) {
         String name = CharNames[type];
         PrintFormat("Характеристика %s повышена на %d\n", name, amount);
     }
 
+    /**
+     * @see IView
+     */
     public void NotEnoughCharacterPoints() {
         Print("Не хватает очков характеристик\n");
     }
 
+    /**
+     * @see IView
+     */
     public void AlreadyHaveAbility() {
         Print("У вас уже есть этот навык\n");
     }
 
+    /**
+     * @see IView
+     */
     public void NotEnoughAbilityPoints() {
         Print("Не хватает очков навыков\n");
     }
 
+    /**
+     * @see IView
+     */
     public void TooLowLevelForAbility() {
         Print("Ваш уровень недостаточен чтобы купить этот навык\n");
     }
 
+    /**
+     * @see IView
+     */
     public void AbilityDoesntExist() {
         Print("Такого навыка не существует\n");
 
     }
 
+    /**
+     * @see IView
+     */
     public void StartBattle() {
         Print("Битва началась!\n");
     }
 
+    /**
+     * @see IView
+     */
     public void EnemyCast(Ability ability) {
         if (ability.Type == AbilityType.SelfImposed) {
             PrintFormat("Противник усилил себя: %s\n", ability.toString());
@@ -172,10 +256,16 @@ public class ConsoleView implements IView {
         }
     }
 
+    /**
+     * @see IView
+     */
     public void EnemyFailCast() {
         Print("Противнику не удалось применить навык\n");
     }
 
+    /**
+     * @see IView
+     */
     public void PlayerCast(Ability ability) {
         if (ability.Type == AbilityType.SelfImposed) {
             PrintFormat("Вы усилили себя: %s\n", ability.toString());
@@ -184,30 +274,49 @@ public class ConsoleView implements IView {
         }
     }
 
+    /**
+     * @see IView
+     */
     public void NotEnoughMana() {
         Print("Недостаточно маны\n");
     }
 
+    /**
+     * @see IView
+     */
     public void NotEnoughStamina() {
         Print("Недостаточно выносливости\n");
 
     }
 
+    /**
+     * @see IView
+     */
     public void NotEnoughHealth() {
         Print("Недостаточно здоровья\n");
 
     }
 
+    /**
+     * @see IView
+     */
     public void PlayerDied() {
         Print("Вы погибли в битве\n");
     }
 
+    /**
+     * @see IView
+     */
     public void WinBattle(Monster enemy) {
         Print("Вы победили в битве\n");
         PrintFormat("Награда: %d опыта\n", enemy.XPReward);
 
     }
 
+    /**
+     * Показывает характеристики персонажа для битвы
+     * @param gameCharacter
+     */
     private void PrintBattleInfo(GameCharacter gameCharacter) {
         PrintFormat("Cила - %d; Ловкость - %d; Интеллект - %d; Мудрость - %d\n",
                 gameCharacter.getStrength(), gameCharacter.getAgility(), gameCharacter.getIntelligence(), gameCharacter.getWisdom());
@@ -220,6 +329,9 @@ public class ConsoleView implements IView {
                 gameCharacter.getCurrentStamina(), gameCharacter.getStaminaPoints(), gameCharacter.getStaminaRegen());
     }
 
+    /**
+     * @see IView
+     */
     public void ShowBattleMenu() {
         Print("=== Игрок ===\n");
         PrintBattleInfo(GameManager.getInstance().player);
@@ -233,6 +345,9 @@ public class ConsoleView implements IView {
         PrintBattleInfo(GameManager.getInstance().GetEnemy());
     }
 
+    /**
+     * @see IView
+     */
     public void ShowCurrentHelp() {
         if (GameManager.getInstance().isGameStarted) {
             if (GameManager.getInstance().inMainMenu) {
@@ -262,17 +377,25 @@ public class ConsoleView implements IView {
         }
     }
 
-
+    /**
+     * @see IView
+     */
     public void WrongGlobalTurn() {
         Print("Нельзя пойти в эту сторону!\n");
     }
 
+    /**
+     * @see IView
+     */
     public void ItemsPickedUp(ArrayList<Integer> ItemsId) {
         for (Integer Id: ItemsId) {
             Print("Поднят предмет " + ItemStorage.Items.get(Id).Name + "\n");
         }
     }
 
+    /**
+     * @see IView
+     */
     public void ShowInventory() {
         if (GameManager.getInstance().SelectedInventoryMenuCategory == -1) {
             Print("В вашем инвентаре " + GameManager.getInstance().player.getInventory().items.size() + " предметов\n");
@@ -295,22 +418,37 @@ public class ConsoleView implements IView {
         }
     }
 
+    /**
+     * @see IView
+     */
     public void ItemEquipped() {
         Print("Предмет успешно надет\n");
     }
 
+    /**
+     * @see IView
+     */
     public void ItemNotInInventory() {
         Print("Такого предмета нет в инвентаре\n");
     }
 
+    /**
+     * @see IView
+     */
     public void ShowEquipHelp() {
         Print("Чтобы надеть предмет введите его Id\n");
     }
 
+    /**
+     * @see IView
+     */
     public void WrongIntegerInput() {
         Print("Должно быть введено корректное число\n");
     }
 
+    /**
+     * @see IView
+     */
     public void ShowCharacterMenu() {
         PrintFormat("Уровень: %d\n", GameManager.getInstance().player.getLevel());
         PrintFormat("Очки опыта: %d, следующий уровень в %d\n",
@@ -350,6 +488,9 @@ public class ConsoleView implements IView {
         }
     }
 
+    /**
+     * @see IView
+     */
     public void ShowMap() {
         Map map = GameManager.getInstance().map;
         ShowCellDefinition();
@@ -382,14 +523,23 @@ public class ConsoleView implements IView {
         }
     }
 
+    /**
+     * @see IView
+     */
     public void WinGame() {
         Print("Вы выиграли!!\n");
     }
 
+    /**
+     * @see IView
+     */
     public void LoseGame() {
         Print("Вы проиграли!!\n");
     }
 
+    /**
+     * @see IView
+     */
     public void GameEnded() {
         Print("Игра завершена\n");
     }

@@ -7,15 +7,39 @@ import com.Game.Map.CellType;
 import java.io.IOException;
 import java.lang.Character;
 
+/**
+ * Класс реализующий интерфейс IController.
+ * @see IController
+ * Используется для ввода действий игрока из консоли
+ * @author titaninus
+ * @version 1.1
+ */
 public class ConsoleController implements IController {
+    /** Поле обозначающее индекс стандартного меню в инвентаре */
     public final int DefaultMenu = -1;  // I
+
+    /** Поле обозначающее индекс меню шлемов в инвентаре */
     public final int HelmetMenu = 0;    // H
+
+    /** Поле обозначающее индекс меню оружия в инвентаре */
     public final int WeaponMenu = 1;    // W
+
+    /** Поле обозначающее индекс меню ботинок в инвентаре */
     public final int BootsMenu = 2;     // T
+
+    /** Поле обозначающее индекс меню перчаток в инвентаре */
     public final int GlovesMenu = 3;    // G
+
+    /** Поле обозначающее индекс меню брони в инвентаре */
     public final int ArmorMenu = 4;     // A
+
+    /** Поле обозначающее индекс меню штанов в инвентаре */
     public final int PantsMenu = 5;     // P
 
+    /**
+     * Функция производящая считывание строки из консоли
+     * @return возвращает считанную строку
+     */
     public String ReadFromConsole() {
         try {
             String res = "";
@@ -29,10 +53,16 @@ public class ConsoleController implements IController {
             return res;
         } catch (IOException e) {
             e.printStackTrace();
+            GameManager.getInstance().HardStop();
         }
         return new String();
     }
 
+    /**
+     * Функция преобразующая строку в число
+     * @param s - строка для преобразования
+     * @return возвращает число из строки
+     */
     public int parseInt(String s) {
         int res = 0;
         for (int i = 0; i < s.length(); ++i) {
@@ -49,11 +79,18 @@ public class ConsoleController implements IController {
         return res;
     }
 
+    /**
+     * Функция ожидающая чтение из консоли и запускающая обработку считанной строки
+     */
     public void WaitForRead() {
         String readed = ReadFromConsole();
         HandleRead(readed);
     }
 
+    /**
+     * Обрабатывает строку
+     * @param inputString - строка для оработки
+     */
     public void HandleRead(String inputString) {
         char symbol = inputString.charAt(0);
         if (GameManager.getInstance().isWaitingForInventoryId) {
@@ -357,6 +394,9 @@ public class ConsoleController implements IController {
         }
     }
 
+    /**
+     * Реализация метода интерфейса IController
+     */
     public void MakeGameLoop() {
         while(GameManager.getInstance().isValidGame) {
             WaitForRead();

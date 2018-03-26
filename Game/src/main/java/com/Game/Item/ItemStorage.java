@@ -6,16 +6,24 @@ import com.Game.Character.ModifierPoint;
 
 
 /**
- * Created by Titaninus on 15.03.2018.
+ * Хранилище предметов
+ * @author titaninus
+ * @version 1.0
  */
 public class ItemStorage {
 
+    /** Предметы доступные в игре */
     public static HashMap<Integer, Item> Items = new HashMap<Integer, Item>();
 
+    /** Предметы сгрупированные по типу и уровню */
     public static HashMap<ItemType, HashMap<Integer, ArrayList<Integer>>> ItemsByCategoryAndLevel;
 
+    /** Максимальный уровень предметов в игре */
     public static int MaxLevel = 1;
 
+    /**
+     * Загрузка всех предметов в игре и распределение их по типам и уровням
+     */
     public static void LoadAllItems() {
         Items = new HashMap<Integer, Item>();
         Items.put(0, new Item("Плохая Броня", 0, 1, ItemType.Armor, new ArrayList<Modifier>(Arrays.asList(

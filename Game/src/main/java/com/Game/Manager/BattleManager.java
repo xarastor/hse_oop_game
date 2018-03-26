@@ -9,11 +9,26 @@ import com.Game.Character.MonsterStorage;
 
 import java.util.Random;
 
+/**
+ * Менеджер битвы
+ * @author titaninus
+ * @version 1.1
+ */
 public class BattleManager {
 
+    /** Вероятность срабатывания критического удара */
     public double criticalChance = 9;
+
+    /** Монстр с которым происходит сражение */
     public Monster Enemy;
+
+    /** Генератор рандомных чисел */
     Random random = new Random();
+
+    /**
+     * Начало битвы
+     * @param monsterIndex - идентификатор монстра с которым будет происходить битва
+     */
     public void StartBattle(int monsterIndex) {
         Enemy = MonsterStorage.Monsters.get(monsterIndex).Copy();
         Enemy.onBattleStart();
@@ -21,16 +36,25 @@ public class BattleManager {
         GameManager.getInstance().onBattleStart();
     }
 
+    /**
+     * Действие на переключение хода
+     */
     public void onBattleTurn() {
         Enemy.onBattleTurn();
         GameManager.getInstance().player.onBattleTurn();
     }
 
+    /**
+     * Действие на конец битвы
+     */
     public void onBattleEnd() {
         Enemy.onBattleEnd();
         GameManager.getInstance().player.onBattleEnd();
     }
 
+    /**
+     * Реализация хода противника в битве
+     */
     public void EnemyTurn() {
         int amountAbilities = Enemy.getAbilities().size();
         int index = random.nextInt(amountAbilities);
@@ -48,6 +72,13 @@ public class BattleManager {
 
     }
 
+    /**
+     * Применение навыка в битве
+     * @param abilityIndex - идентификатор навыка
+     * @param caster - кто исполнил навык
+     * @param target - цель навыка
+     * @return Возвращает успешность применения навыка
+     */
     public boolean ApplyAbility(int abilityIndex, GameCharacter caster, GameCharacter target) {
         Ability ability = AbilityStorage.Abilities.get(abilityIndex);
         boolean isCritical = (random.nextDouble() * caster.getLuck()) > criticalChance;
