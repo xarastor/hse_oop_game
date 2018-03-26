@@ -13,6 +13,7 @@ public class Ability {
     public int Id;
     public int Level;
     public ArrayList<Modifier> Modifiers;
+
     public Ability(int id, String name, AbilityType type, int level, int damage, int manaCost, int staminaCost, int healthCost, ArrayList<Modifier> modifiers) {
         Id = id;
         Name = name;

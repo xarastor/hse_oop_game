@@ -33,6 +33,22 @@ public class ConsoleController implements IController {
         return new String();
     }
 
+    public int parseInt(String s) {
+        int res = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            char symbol = s.charAt(i);
+            if (symbol >= '0' && symbol <= '9') {
+                res = res * 10 + (symbol - '0');
+            } else {
+                System.out.println("Symbol didn't recognized: ");
+                System.out.print(symbol);
+                System.out.println("\n" + s + "\n");
+                throw new java.lang.NumberFormatException();
+            }
+        }
+        return res;
+    }
+
     public void WaitForRead() {
         String readed = ReadFromConsole();
         HandleRead(readed);
@@ -42,7 +58,7 @@ public class ConsoleController implements IController {
         char symbol = inputString.charAt(0);
         if (GameManager.getInstance().isWaitingForInventoryId) {
             try {
-                int ItemId = Integer.parseInt(inputString);
+                int ItemId = parseInt(inputString.trim());
                 if (GameManager.getInstance().player.getInventory().Equip(ItemId)) {
                     GameManager.getInstance().renderer.ItemEquipped();
                 } else {
@@ -58,7 +74,7 @@ public class ConsoleController implements IController {
         }
         if (GameManager.getInstance().isWaitingForAbilityId) {
             try {
-                int AbilityId = Integer.parseInt(inputString);
+                int AbilityId = parseInt(inputString.trim());
                 GameManager.getInstance().player.BuyAbility(AbilityId);
                 GameManager.getInstance().isWaitingForAbilityId = false;
             } catch (java.lang.NumberFormatException e) {
@@ -69,7 +85,7 @@ public class ConsoleController implements IController {
         }
         if (GameManager.getInstance().isWaitingForBattleId) {
             try {
-                int AbilityId = Integer.parseInt(inputString);
+                int AbilityId = parseInt(inputString.trim());
                 if (AbilityStorage.Abilities.containsKey(AbilityId) && GameManager.getInstance().player.getAbilities().contains(AbilityId)) {
                     GameManager.getInstance().PlayerTurn(AbilityId);
                     if (GameManager.getInstance().inBattleMenu) {

@@ -25,11 +25,6 @@ public class ConsoleView implements IView {
     private final String EmptyPos = "O ";
 
     private final String[] CharNames = {"Сила", "Ловкость", "Интеллект", "Мудрость", "Регенерация маны", "Регенерация здоровья", "Регенерация выносливости", "Удача"};
-    public static void clearConsole() {
-        for (int i = 0; i < 50; ++i) {
-            System.out.println("\n");
-        }
-    }
 
     public void Print(String message) {
         System.out.print(message);
@@ -41,18 +36,6 @@ public class ConsoleView implements IView {
 
     public void Start() {
         Print("Начата новая игра\n");
-    }
-
-    public void GlobalTurn() {
-
-    }
-
-    public void PlayerBattleTurn() {
-
-    }
-
-    public void EnemyBattleTurn() {
-
     }
 
     public void HardStop() {
@@ -352,10 +335,12 @@ public class ConsoleView implements IView {
         for (Integer abilityId: GameManager.getInstance().player.getAbilities()) {
             Print(AbilityStorage.Abilities.get(abilityId).toString());
         }
+        Print("\n\n\n");
         PrintFormat("Доступно очков характеристик: %d\n", GameManager.getInstance().player.getCharacterPoint());
         PrintFormat("Доступно очков навыков: %d\n", GameManager.getInstance().player.getAbilityPoint());
 
-        Print("=== Доступные для покупки навыки ===");
+        Print("\n\n\n");
+        Print("=== Доступные для покупки навыки ===\n");
         for (Ability ability: AbilityStorage.Abilities.values()) {
             if (    !GameManager.getInstance().player.getAbilities().contains(ability.Id)
                     && ability.Level <= GameManager.getInstance().player.getLevel()
@@ -366,7 +351,6 @@ public class ConsoleView implements IView {
     }
 
     public void ShowMap() {
-        //clearConsole();
         Map map = GameManager.getInstance().map;
         ShowCellDefinition();
         Print("Карта\n");

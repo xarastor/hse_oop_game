@@ -1,6 +1,5 @@
 package com.Game.Character;
 
-import com.Game.Item.*;
 import com.Game.Item.Item;
 import com.Game.Item.ItemStorage;
 import com.Game.Item.ItemType;

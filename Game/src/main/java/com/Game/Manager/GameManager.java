@@ -8,8 +8,6 @@ import com.Game.Character.Player;
 import com.Game.Controller.ConsoleController;
 import com.Game.Controller.IController;
 import com.Game.Item.ItemStorage;
-import com.Game.Map.*;
-import com.Game.Character.*;
 import com.Game.View.ConsoleView;
 import com.Game.View.IView;
 import com.Game.Map.Cell;
@@ -63,7 +61,7 @@ public class GameManager {
         AbilityStorage.LoadAllAbilities();
         battleManager = new BattleManager();
         player = new Player();
-        map = MapGenerator.GenerateMap(10, 10);
+        map = MapGenerator.GenerateMap(20, 20);
     }
 
     public boolean isPlayerPos(int x, int y) {

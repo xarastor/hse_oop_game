@@ -43,12 +43,108 @@ public class ItemStorage {
                 new Modifier(ModifierPoint.Intelligence,  1)
         ))));
         Items.put(6, new Item("Плохие Ботинки", 6, 1, ItemType.Boots, new ArrayList<Modifier>(Arrays.asList(
-                new Modifier(ModifierPoint.Intelligence,  10),
-                new Modifier(ModifierPoint.Wisdom,  10)
+                new Modifier(ModifierPoint.Intelligence,  2),
+                new Modifier(ModifierPoint.Wisdom,  2)
         ))));
         Items.put(7, new Item("Плохой Шлем", 7, 1, ItemType.Helmet, new ArrayList<Modifier>(Arrays.asList(
                 new Modifier(ModifierPoint.Strength,  1),
                 new Modifier(ModifierPoint.Intelligence,  1)
+        ))));
+        Items.put(8, new Item("Нормальная Броня", 8, 2, ItemType.Armor, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  6),
+                new Modifier(ModifierPoint.Agility,  6)
+        ))));
+        Items.put(9, new Item("Нормальный Меч", 9, 2, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  6),
+                new Modifier(ModifierPoint.Agility,  3)
+        ))));
+        Items.put(10, new Item("Нормальный Лук", 10, 2, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Agility,  6),
+                new Modifier(ModifierPoint.Strength,  3)
+        ))));
+        Items.put(11, new Item("Нормальный Посох", 11, 2, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  6),
+                new Modifier(ModifierPoint.Wisdom,  3)
+        ))));
+        Items.put(12, new Item("Нормальные Штаны", 12, 2, ItemType.Pants, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  3),
+                new Modifier(ModifierPoint.Agility,  3)
+        ))));
+        Items.put(13, new Item("Нормальные Перчатки", 13, 2, ItemType.Gloves, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Wisdom,  3),
+                new Modifier(ModifierPoint.Intelligence,  3)
+        ))));
+        Items.put(14, new Item("Нормальные Ботинки", 14, 2, ItemType.Boots, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  6),
+                new Modifier(ModifierPoint.Wisdom,  6)
+        ))));
+        Items.put(15, new Item("Нормальный Шлем", 15, 2, ItemType.Helmet, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  3),
+                new Modifier(ModifierPoint.Intelligence,  3)
+        ))));
+        Items.put(16, new Item("Редкая Броня", 16, 3, ItemType.Armor, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  12),
+                new Modifier(ModifierPoint.Agility,  12)
+        ))));
+        Items.put(17, new Item("Редкий Меч", 17, 3, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  12),
+                new Modifier(ModifierPoint.Agility,  6)
+        ))));
+        Items.put(18, new Item("Редкий Лук", 18, 3, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Agility,  12),
+                new Modifier(ModifierPoint.Strength,  6)
+        ))));
+        Items.put(19, new Item("Редкий Посох", 19, 3, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  12),
+                new Modifier(ModifierPoint.Wisdom,  6)
+        ))));
+        Items.put(20, new Item("Редкие Штаны", 20, 3, ItemType.Pants, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  6),
+                new Modifier(ModifierPoint.Agility,  6)
+        ))));
+        Items.put(21, new Item("Редкие Перчатки", 21, 3, ItemType.Gloves, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Wisdom,  6),
+                new Modifier(ModifierPoint.Intelligence,  6)
+        ))));
+        Items.put(22, new Item("Редкие Ботинки", 22, 3, ItemType.Boots, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  6),
+                new Modifier(ModifierPoint.Wisdom,  6)
+        ))));
+        Items.put(23, new Item("Редкий Шлем", 23, 3, ItemType.Helmet, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  6),
+                new Modifier(ModifierPoint.Intelligence,  6)
+        ))));
+        Items.put(24, new Item("Эпическая Броня", 24, 4, ItemType.Armor, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  25),
+                new Modifier(ModifierPoint.Agility,  25)
+        ))));
+        Items.put(25, new Item("Эпический Меч", 25, 4, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  25),
+                new Modifier(ModifierPoint.Agility,  15)
+        ))));
+        Items.put(26, new Item("Эпический Лук", 26, 4, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Agility,  25),
+                new Modifier(ModifierPoint.Strength,  15)
+        ))));
+        Items.put(27, new Item("Эпический Посох", 27, 4, ItemType.Weapon, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  25),
+                new Modifier(ModifierPoint.Wisdom,  15)
+        ))));
+        Items.put(28, new Item("Эпические Штаны", 28, 4, ItemType.Pants, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  15),
+                new Modifier(ModifierPoint.Agility,  15)
+        ))));
+        Items.put(29, new Item("Эпические Перчатки", 29, 4, ItemType.Gloves, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Wisdom,  15),
+                new Modifier(ModifierPoint.Intelligence,  15)
+        ))));
+        Items.put(30, new Item("Эпические Ботинки", 30, 4, ItemType.Boots, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Intelligence,  15),
+                new Modifier(ModifierPoint.Wisdom,  15)
+        ))));
+        Items.put(31, new Item("Эпический Шлем", 31, 4, ItemType.Helmet, new ArrayList<Modifier>(Arrays.asList(
+                new Modifier(ModifierPoint.Strength,  15),
+                new Modifier(ModifierPoint.Intelligence,  15)
         ))));
         ItemsByCategoryAndLevel = new HashMap<ItemType, HashMap<Integer, ArrayList<Integer>>>();
         for (Item item: Items.values()) {

@@ -2,10 +2,6 @@ package com.Game.Character;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by titaninus on 14.03.18.
- */
 public class Monster extends GameCharacter {
     public int XPReward;
     public int Level;

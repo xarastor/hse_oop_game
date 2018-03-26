@@ -49,32 +49,16 @@ public class GameCharacter implements IEventable {
         Strength = Strength + amount;
     }
 
-    public void permamentLowerStrength(int amount) {
-        Strength = Math.max(Strength - amount, 0);
-    }
-
     public void permamentRaiseAgility(int amount) {
         Agility = Agility + amount;
-    }
-
-    public void permamentLowerAgility(int amount) {
-        Agility = Math.max(Agility - amount, 0);
     }
 
     public void permamentRaiseIntelligence(int amount) {
         Intelligence = Intelligence + amount;
     }
 
-    public void permamentLowerIntelligence(int amount) {
-        Intelligence = Math.max(Intelligence - amount, 0);
-    }
-
     public void permamentRaiseWisdom(int amount) {
         Wisdom = Wisdom + amount;
-    }
-
-    public void permamentLowerWisdom(int amount) {
-        Wisdom = Math.max(Wisdom - amount, 0);
     }
 
 
@@ -255,13 +239,13 @@ public class GameCharacter implements IEventable {
 
     ArrayList<Integer> Abilities = new ArrayList<Integer>();
 
-        public ArrayList<Integer> getAbilities() {
-            return Abilities;
-        }
+    public ArrayList<Integer> getAbilities() {
+        return Abilities;
+    }
 
-        void addAbility(int index) {
-            Abilities.add(index);
-        }
+    void addAbility(int index) {
+        Abilities.add(index);
+    }
 
     /**
      * Events for updating characteristics
@@ -349,6 +333,7 @@ public class GameCharacter implements IEventable {
     /**
      * Constructors
      */
+
     public GameCharacter() {
         Strength = 10;
         Agility = 10;
@@ -359,6 +344,6 @@ public class GameCharacter implements IEventable {
         CurrentMana = getManaPoints() / 2;
         CurrentStamina = getStaminaPoints() / 2;
         addAbility(0);
-        addAbility(1);
+        addAbility(15);
     }
 }

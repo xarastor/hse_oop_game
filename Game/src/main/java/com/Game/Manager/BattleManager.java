@@ -1,7 +1,5 @@
 package com.Game.Manager;
 
-import com.Game.Character.*;
-import com.Game.Ability.*;
 import com.Game.Ability.Ability;
 import com.Game.Ability.AbilityStorage;
 import com.Game.Character.GameCharacter;

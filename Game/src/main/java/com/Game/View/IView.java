@@ -17,12 +17,6 @@ public interface IView {
 
     void ShowMap();
 
-    void GlobalTurn();
-
-    void PlayerBattleTurn();
-
-    void EnemyBattleTurn();
-
     void HardStop();
 
     void WrongInput();
