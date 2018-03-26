@@ -6,13 +6,24 @@ import java.util.HashMap;
 import com.Game.Character.Modifier;
 import com.Game.Character.ModifierPoint;
 
+/**
+ * Хранилище навыков, которые используются в игре
+ * @author titaninus
+ * @version 1.1
+ */
 public class AbilityStorage {
+    /** Поле навыков доступных в игре */
     public static HashMap<Integer, Ability> Abilities = new HashMap<Integer, Ability>();
 
+    /** Поле навыков разбитых по уровням */
     public static HashMap<Integer, ArrayList<Integer>> AbilitiesByLevel;
 
+    /** Поле максимального уровня навыков */
     public static Integer MaxLevel = 1;
 
+    /**
+     * Функция, которая загружает все доступные навыки и распределяет их по уровням
+     */
     public static void LoadAllAbilities() {
         Abilities = new HashMap<Integer, Ability>();
         Abilities.put(0, new Ability(0,"Простой удар", AbilityType.EnemyImposed, 1,20, 0,  10, 0, new ArrayList<Modifier>()));

@@ -5,12 +5,20 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class MonsterStorage {
+    /** Поле монстров присутствующих в игре */
     public static HashMap<Integer, Monster> Monsters = new HashMap<Integer, Monster>();
 
+    /** Поле монстров присутствующих в игре разбитых по уровням */
     public static HashMap<Integer, ArrayList<Integer>> MonstersByLevel;
 
+    /** Поле максимального уровня монстров в игре (необходимо для автоматической генерации карты)
+     *@see Map
+     */
     public static Integer MaxLevel = 1;
 
+    /**
+     * Функция загружающая всех монстров в игру и разбивающая их по уровням
+     */
     public static void LoadAllMonsters() {
         Monsters = new HashMap<Integer, Monster>();
         Monsters.put(0, new Monster("Слабый скелет", 1, 0, 10, 15, 10, 1, 1, 2, new ArrayList<Integer>(Arrays.asList(
