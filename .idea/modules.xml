@@ -6,6 +6,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Game_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Game_main.iml" group="Game" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Game_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Game_test.iml" group="Game" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Hse_OOP_Game.iml" filepath="$PROJECT_DIR$/.idea/modules/Hse_OOP_Game.iml" />
+<<<<<<< HEAD
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Hse_OOP_Game_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Hse_OOP_Game_main.iml" group="Hse_OOP_Game" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Hse_OOP_Game_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Hse_OOP_Game_test.iml" group="Hse_OOP_Game" />
+>>>>>>> 296723463444d46fcd44a8c9aae4242357f44215
     </modules>
   </component>
 </project>
