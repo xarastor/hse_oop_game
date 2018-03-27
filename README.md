@@ -8,3 +8,6 @@
 ### Windows 
 Для сборки проекта на Windows запустите скрипт ./Game/gradlew.bat fatJar
 Запуск будет доступен через команду java -jar ./Game/build/libs/Game-1.1-RELEASE-all.jar
+
+### ТЗ
+Техническое задание находится в файле OOP_Project.pdf
