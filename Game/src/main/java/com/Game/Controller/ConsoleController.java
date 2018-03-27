@@ -92,6 +92,9 @@ public class ConsoleController implements IController {
      * @param inputString - строка для оработки
      */
     public void HandleRead(String inputString) {
+        if (inputString.length() <= 0){
+            return;
+        }
         char symbol = inputString.charAt(0);
         if (GameManager.getInstance().isWaitingForInventoryId) {
             try {
